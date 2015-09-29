@@ -1,0 +1,11 @@
+{
+	"title"		:	"Buildmode",
+	"type"		:	"Tool",
+	"tags"		:	[ "fun", "build" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
