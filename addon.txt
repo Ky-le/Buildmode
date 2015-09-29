@@ -1,0 +1,6 @@
+"AddonInfo"
+{
+	"name" "Buildmode"
+	"author_name" "author"
+	"info" "Buildmode"
+}
