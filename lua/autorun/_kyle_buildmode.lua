@@ -75,9 +75,7 @@ hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
         local weapon = string.Explode( "[", tostring(wep))
         weapon = string.Explode("]", table.GetLastValue(weapon))
         table.remove(weapon, 2)
-        if(table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon))) then
-            return true
-        else
+        if(!table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon))) then
             if(ply:GetNWInt("_kyle_buildNotify") == 1)then
                 ply:SetNWInt("_kyle_buildNotify", 0)
                 ply:SendLua("GAMEMODE:AddNotify(\"You cannot get weapons while in Build Mode.\",NOTIFY_GENERIC, 5)") 
@@ -87,8 +85,6 @@ hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
             end)
             return false
         end
-    else
-        return true
     end
 end)
 hook.Add("PlayerSpawnSWEP", "TryWepSpawn",  function(ply)
