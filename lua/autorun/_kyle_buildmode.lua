@@ -1,15 +1,15 @@
 AddCSLuaFile()
 CreateConVar("_kyle_builderHighlight", "0", 8192, "Toggle whether Builders are outlined. (0-1)")
 CreateConVar("_kyle_builderHighlightR", "0", 8192, "Change the RED hue of the Builder outline. (0-255)")
-CreateConVar("_kyle_builderHighlightB", "255", 8192, "Change the BLUE hue of the Builder outline. (0-255)")
 CreateConVar("_kyle_builderHighlightG", "128", 8192, "Change the GREEN hue of the Builder outline. (0-255)")
+CreateConVar("_kyle_builderHighlightB", "255", 8192, "Change the BLUE hue of the Builder outline. (0-255)")
 CreateConVar("_kyle_builderExHighlight", "0", 8192, "Toggle whether Non-Builders are outlined. (0-1)")
 CreateConVar("_kyle_builderExHighlightR", "255", 8192, "Change the RED hue of the Non-Builder outline. (0-255)")
-CreateConVar("_kyle_builderExHighlightB", "128", 8192, "Change the BLUE hue of the Non-Builder outline. (0-255)")
 CreateConVar("_kyle_builderExHighlightG", "0", 8192, "Change the GREEN hue of the Non-Builder outline. (0-255)")
+CreateConVar("_kyle_builderExHighlightB", "128", 8192, "Change the BLUE hue of the Non-Builder outline. (0-255)")
 CreateConVar("_kyle_builderCommand", "!buildmode", 8192, "Change the command to toggle Buildmode for all clients.")
 CreateConVar("_kyle_builderOnSpawn", "0", 8192, "Toggle whether Buildmode is enabled by default. (0-1)")
-CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are kicked for abusing Builder. (0-1)")
+CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are kicked for abusing Buildmode. (0-1)")
  _kyle_builderSpawnableWeapons={
 "weapon_physgun",
 "gmod_tool",
