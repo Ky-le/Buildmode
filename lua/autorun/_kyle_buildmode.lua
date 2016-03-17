@@ -124,7 +124,7 @@ hook.Add("PreDrawHalos", "AddHalos", function()
     end
 end )
 hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	if GetConVar("_kyle_builderNoclip"):GetInt() == 1 then
-		//placeholder
+	if ((GetConVar("_kyle_builderNoclip"):GetInt() == 1) and (ply:GetNWInt("_kyle_buildmode") == 1)) or (ply:IsAdmin()) then
+		return true;
 	end
 end )
