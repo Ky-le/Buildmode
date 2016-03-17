@@ -12,14 +12,14 @@ CreateConVar("_kyle_builderCommand", "!buildmode", 8192, "Change the command to 
 CreateConVar("_kyle_builderOnSpawn", "0", 8192, "Toggle whether Buildmode is enabled by default. (0-1)")
 CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are kicked for abusing Buildmode. (0-1)")
  _kyle_builderSpawnableWeapons={
-"weapon_physgun",
-"gmod_tool",
-"gmod_camera"
+ 	"weapon_physgun",
+	"gmod_tool",
+	"gmod_camera"
 }
  _kyle_builderWeapons={
-"weapon_physgun",
-"gmod_tool",
-"gmod_camera"
+ 	"weapon_physgun",
+ 	"gmod_tool",
+ 	"gmod_camera"
 }
 function _kyle_buildmodeToggle(ply)
 	if (ply:GetNWInt("_kyle_buildmode") == 1) then  
@@ -30,12 +30,11 @@ function _kyle_buildmodeToggle(ply)
 		_kyle_buildweapons(ply)
 		ply:SetNWInt("_kyle_buildmode", 1)
 		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode enabled.\",NOTIFY_GENERIC, 5)")PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
-        end
+	end
 end
 function _kyle_buildweapons(ply)
-    ply:StripWeapons()
-    for i=1,#_kyle_builderWeapons do 
-        ply:Give(_kyle_builderWeapons[i])
+	ply:StripWeapons()
+	for i=1,#_kyle_builderWeapons doply:Give(_kyle_builderWeapons[i])
     end
 end
 hook.Add("PlayerSpawn", "OnSpawn", function( ply )
