@@ -48,11 +48,7 @@ end
 
 --Called when the Player Spawns
 hook.Add("PlayerSpawn", "OnSpawn", function( ply )
-    if GetConVar("_kyle_builderOnSpawn"):GetInt() ==1 then _kyle_builderOnSpawn=true end
-    if GetConVar("_kyle_builderOnSpawn"):GetInt() ==0 then _kyle_builderOnSpawn=false end
-    if GetConVar("_kyle_builderAbuseKick"):GetInt() ==1 then _kyle_builderAbuseKick=true end
-    if GetConVar("_kyle_builderAbuseKick"):GetInt() ==0 then _kyle_builderAbuseKick=false end
-    if _kyle_builderOnSpawn then
+    if GetConVar("_kyle_builderOnSpawn"):GetInt() == 1 then
     	_kyle_buildweapons(ply)
         ply:SetNWInt("_kyle_buildmode", 1)
         ply:SetNWInt("_kyle_buildNotify", 1)
@@ -64,33 +60,31 @@ hook.Add("PlayerSpawn", "OnSpawn", function( ply )
 end )
 --Called when the Player Dies
 hook.Add("PlayerDeath", "OnDeath", function(victim, inflictor, killer)
-    if killer:GetNWInt("_kyle_buildmode")==1 and killer != victim and _kyle_builderAbuseKick then
+    if killer:GetNWInt("_kyle_buildmode")==1 and killer != victim and GetConVar("_kyle_builderAbuseKick"):GetInt() == 1 then
         PrintMessage( HUD_PRINTTALK, killer:GetName( ) .." has been kicked for killing " .. victim:GetName( ) .. "while in Buildmode." )
         killer:Kick("You have killed someone while in Buildmode.")
     end
 end)
 --Called when the Player speaks in text
 hook.Add("PlayerSay", "OnSay", function(ply, say)
-	_kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString()
-	local text = say:lower()
-	if (text == _kyle_builderCommand) then
+	_kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString():lower()
+	if say:lower() == _kyle_builderCommand then
         	_kyle_buildmodeToggle(ply)
 	end
 end)
 --Called when the player Tages Damage
-hook.Add("EntityTakeDamage", "GodMode",  function(ply, dmginfo)
-    if(ply:GetNWInt("_kyle_buildmode") == 1 and ply:IsPlayer()) then
-        dmginfo:ScaleDamage( 0 )
+hook.Add("EntityTakeDamage", "OnDamage",  function(ply, dmginfo)
+    if ply:GetNWInt("_kyle_buildmode") == 1 and ply:IsPlayer() then
+        dmginfo:ScaleDamage(0)
     end
-end )
+end)
 --Called when the player stands on a Weapon
-hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
-    if (ply:GetNWInt("_kyle_buildmode") == 1) then
-        local weapon = string.Explode( "[", tostring(wep))
-        weapon = string.Explode("]", table.GetLastValue(weapon))
+hook.Add("PlayerCanPickupWeapon", "OnWepPickup",  function(ply, wep)
+    if ply:GetNWInt("_kyle_buildmode") == 1 then
+        local weapon = string.Explode("]", table.GetLastValue(string.Explode( "[", tostring(wep)))
         table.remove(weapon, 2)
-        if(!table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon))) then
-            if(ply:GetNWInt("_kyle_buildNotify") == 1)then
+        if !table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon)) then
+            if ply:GetNWInt("_kyle_buildNotify") == 1 then
                 ply:SetNWInt("_kyle_buildNotify", 0)
                 ply:SendLua("GAMEMODE:AddNotify(\"You cannot get weapons while in Build Mode.\",NOTIFY_GENERIC, 5)") 
             end
@@ -102,29 +96,29 @@ hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
     end
 end)
 --Called when the player tries to Spawns a weapon
-hook.Add("PlayerSpawnSWEP", "TryWepSpawn",  function(ply)
-    if (ply:GetNWInt("_kyle_buildmode") == 1) then
+hook.Add("PlayerSpawnSWEP", "OnWepSpawn",  function(ply)
+    if ply:GetNWInt("_kyle_buildmode") == 1 then
         ply:SendLua("GAMEMODE:AddNotify(\"You cannot get weapons while in Build Mode.\",NOTIFY_GENERIC, 5)")
         return false
     end
 end)
 --Called when the player trys to toggle Noclip
 hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	if ((GetConVar("_kyle_builderNoclip"):GetInt() == 1) and (ply:GetNWInt("_kyle_buildmode") == 1)) or (ply:IsAdmin()) then
-		return true;
+	if GetConVar("_kyle_builderNoclip"):GetInt() == 1 and ply:GetNWInt("_kyle_buildmode") == 1 or ply:IsAdmin() then
+		return true
 	end
 end)
 --Called to draw Halos
-hook.Add("PreDrawHalos", "AddHalos", function()
+hook.Add("PreDrawHalos", "OnHalo", function()
     _kyle_builderHighlight = GetConVar("_kyle_builderHighlight"):GetInt() == 1
     _kyle_builderExHighlight = GetConVar("_kyle_builderExHighlight"):GetInt() == 1
     if _kyle_builderHighlight or _kyle_builderExHighlight then
         _kyle_Builders={}
         _kyle_BuildersEx={}
         for i=1,#player.GetAll() do
-            if(player.GetAll()[i]:GetNWInt("_kyle_buildmode")==1 and player.GetAll()[i]:Alive() and _kyle_builderHighlight) then 
+            if player.GetAll()[i]:GetNWInt("_kyle_buildmode") == 1 and player.GetAll()[i]:Alive() and _kyle_builderHighlight then 
                 table.insert(_kyle_Builders, player.GetAll()[i])
-            elseif(player.GetAll()[i]:GetNWInt("_kyle_buildmode")==0 and player.GetAll()[i]:Alive() and _kyle_builderExHighlight)then
+            elseifplayer.GetAll()[i]:GetNWInt("_kyle_buildmode") == 0 and player.GetAll()[i]:Alive() and _kyle_builderExHighlight then
                 table.insert(_kyle_BuildersEx, player.GetAll()[i])
             end
         end
