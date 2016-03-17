@@ -1,6 +1,13 @@
 # Buildmode
 A Garry's Mod addon made for builder protection. Uploaded here so people can laugh at my mistakes.
 
+##TODO:
+- [in the works] Add some Noclip thing
+- [ ] Add ULX support or whatever
+- [ ] Add a new way to show Builders
+- [ ] Probably something else
+
+
 ####Features: 
 * Players can enable Buildmode (with "!buildmode", by default) to restrict their weapons to the Physgun, Toolgun, and Camera and have invincibility. 
 * Builders and/or Non-Builders can be highlighted with any RGB color. 
