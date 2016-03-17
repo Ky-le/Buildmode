@@ -1,4 +1,6 @@
 AddCSLuaFile()
+
+--Console Commands
 CreateConVar("_kyle_builderNoclip", "1", 8192, "Toggle whether Builders are can Noclip. (0-1)")
 CreateConVar("_kyle_builderHighlight", "0", 8192, "Toggle whether Builders are outlined. (0-1)")
 CreateConVar("_kyle_builderHighlightR", "0", 8192, "Change the RED hue of the Builder outline. (0-255)")
@@ -11,16 +13,21 @@ CreateConVar("_kyle_builderExHighlightB", "128", 8192, "Change the BLUE hue of t
 CreateConVar("_kyle_builderCommand", "!buildmode", 8192, "Change the command to toggle Buildmode for all clients.")
 CreateConVar("_kyle_builderOnSpawn", "0", 8192, "Toggle whether Buildmode is enabled by default. (0-1)")
 CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are kicked for abusing Buildmode. (0-1)")
+
+--Weapons the player can spawn while in Buildmode
  _kyle_builderSpawnableWeapons={
  	"weapon_physgun",
 	"gmod_tool",
 	"gmod_camera"
 }
+--Weapons the player gets reset to when switched to Buildmode
  _kyle_builderWeapons={
  	"weapon_physgun",
  	"gmod_tool",
  	"gmod_camera"
 }
+
+--Disable Buildmode if enabled and vice versa
 function _kyle_buildmodeToggle(ply)
 	if (ply:GetNWInt("_kyle_buildmode") == 1) then  
 		ply:SetNWInt("_kyle_buildmode", 0) 
@@ -32,11 +39,14 @@ function _kyle_buildmodeToggle(ply)
 		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode enabled.\",NOTIFY_GENERIC, 5)")PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
 	end
 end
+--Reset the weapons of the Player to what is in _kyle_builderWeapons
 function _kyle_buildweapons(ply)
 	ply:StripWeapons()
 	for i=1,#_kyle_builderWeapons doply:Give(_kyle_builderWeapons[i])
     end
 end
+
+--Called when the Player Spawns
 hook.Add("PlayerSpawn", "OnSpawn", function( ply )
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==1 then _kyle_builderOnSpawn=true end
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==0 then _kyle_builderOnSpawn=false end
@@ -52,12 +62,14 @@ hook.Add("PlayerSpawn", "OnSpawn", function( ply )
 	    ply:SetNWInt("_kyle_buildmode", 0) 
 	end
 end )
+--Called when the Player Dies
 hook.Add("PlayerDeath", "OnDeath", function(victim, inflictor, killer)
     if killer:GetNWInt("_kyle_buildmode")==1 and killer != victim and _kyle_builderAbuseKick then
         PrintMessage( HUD_PRINTTALK, killer:GetName( ) .." has been kicked for killing " .. victim:GetName( ) .. "while in Buildmode." )
         killer:Kick("You have killed someone while in Buildmode.")
     end
 end)
+--Called when the Player speaks in text
 hook.Add("PlayerSay", "OnSay", function(ply, say)
 	_kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString()
 	local text = say:lower()
@@ -65,11 +77,13 @@ hook.Add("PlayerSay", "OnSay", function(ply, say)
         	_kyle_buildmodeToggle(ply)
 	end
 end)
+--Called when the player Tages Damage
 hook.Add("EntityTakeDamage", "GodMode",  function(ply, dmginfo)
     if(ply:GetNWInt("_kyle_buildmode") == 1 and ply:IsPlayer()) then
         dmginfo:ScaleDamage( 0 )
     end
 end )
+--Called when the player stands on a Weapon
 hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
     if (ply:GetNWInt("_kyle_buildmode") == 1) then
         local weapon = string.Explode( "[", tostring(wep))
@@ -87,12 +101,20 @@ hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
         end
     end
 end)
+--Called when the player tries to Spawns a weapon
 hook.Add("PlayerSpawnSWEP", "TryWepSpawn",  function(ply)
     if (ply:GetNWInt("_kyle_buildmode") == 1) then
         ply:SendLua("GAMEMODE:AddNotify(\"You cannot get weapons while in Build Mode.\",NOTIFY_GENERIC, 5)")
         return false
     end
 end)
+--Called when the player trys to toggle Noclip
+hook.Add("PlayerNoClip", "OnNoclip", function( ply )
+	if ((GetConVar("_kyle_builderNoclip"):GetInt() == 1) and (ply:GetNWInt("_kyle_buildmode") == 1)) or (ply:IsAdmin()) then
+		return true;
+	end
+end)
+--Called to draw Halos
 hook.Add("PreDrawHalos", "AddHalos", function()
     if GetConVar("_kyle_builderHighlight"):GetInt() ==1 then _kyle_builderHighlight=true end
     if GetConVar("_kyle_builderHighlight"):GetInt() ==0 then _kyle_builderHighlight=false end
@@ -121,9 +143,4 @@ hook.Add("PreDrawHalos", "AddHalos", function()
         if (GetConVar("_kyle_builderExHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightB"):GetInt() > -1) then _kyle_builderExHighlightB = GetConVar("_kyle_builderExHighlightB"):GetInt() end
         halo.Add(_kyle_BuildersEx, Color(_kyle_builderExHighlightR, _kyle_builderExHighlightG, _kyle_builderExHighlightB), 4, 4, 1, true)
     end
-end )
-hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	if ((GetConVar("_kyle_builderNoclip"):GetInt() == 1) and (ply:GetNWInt("_kyle_buildmode") == 1)) or (ply:IsAdmin()) then
-		return true;
-	end
-end )
+end)
