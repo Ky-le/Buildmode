@@ -116,10 +116,8 @@ hook.Add("PlayerNoClip", "OnNoclip", function( ply )
 end)
 --Called to draw Halos
 hook.Add("PreDrawHalos", "AddHalos", function()
-    if GetConVar("_kyle_builderHighlight"):GetInt() ==1 then _kyle_builderHighlight=true end
-    if GetConVar("_kyle_builderHighlight"):GetInt() ==0 then _kyle_builderHighlight=false end
-    if GetConVar("_kyle_builderExHighlight"):GetInt() ==1 then _kyle_builderExHighlight=true end
-    if GetConVar("_kyle_builderExHighlight"):GetInt() ==0 then _kyle_builderExHighlight=false end
+    _kyle_builderHighlight = GetConVar("_kyle_builderHighlight"):GetInt() == 1
+    _kyle_builderExHighlight = GetConVar("_kyle_builderExHighlight"):GetInt() == 1
     if _kyle_builderHighlight or _kyle_builderExHighlight then
         _kyle_Builders={}
         _kyle_BuildersEx={}
@@ -131,12 +129,14 @@ hook.Add("PreDrawHalos", "AddHalos", function()
             end
         end
     end
+    --Get the colors for the Builders and add a halo to them
     if _kyle_builderHighlight then
         if (GetConVar("_kyle_builderHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightR"):GetInt() > -1) then _kyle_builderHighlightR = GetConVar("_kyle_builderHighlightR"):GetInt() end
         if (GetConVar("_kyle_builderHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightG"):GetInt() > -1) then _kyle_builderHighlightG = GetConVar("_kyle_builderHighlightG"):GetInt() end
         if (GetConVar("_kyle_builderHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightB"):GetInt() > -1) then _kyle_builderHighlightB = GetConVar("_kyle_builderHighlightB"):GetInt() end
         halo.Add(_kyle_Builders, Color(_kyle_builderHighlightR, _kyle_builderHighlightG, _kyle_builderHighlightB), 4, 4, 1, true)
     end
+    --Get the colors for the non-builders and add a halo to them
     if _kyle_builderExHighlight then
         if (GetConVar("_kyle_builderExHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightR"):GetInt() > -1) then _kyle_builderExHighlightR = GetConVar("_kyle_builderExHighlightR"):GetInt() end
         if (GetConVar("_kyle_builderExHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightG"):GetInt() > -1) then _kyle_builderExHighlightG = GetConVar("_kyle_builderExHighlightG"):GetInt() end
