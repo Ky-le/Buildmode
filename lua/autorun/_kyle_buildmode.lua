@@ -22,15 +22,14 @@ CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are k
 "gmod_camera"
 }
 function _kyle_buildmodeToggle(ply)
-        if (ply:GetNWInt("_kyle_buildmode") == 1) then  
-            ply:SetNWInt("_kyle_buildmode", 0) 
-            ply:SendLua("GAMEMODE:AddNotify(\"Build Mode disabled.\",NOTIFY_GENERIC, 5)")
-            PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has disabled Build Mode.")
-        elseif (ply:GetNWInt("_kyle_buildmode") == 0) then
-            _kyle_buildweapons(ply)
-            ply:SetNWInt("_kyle_buildmode", 1) 
-            ply:SendLua("GAMEMODE:AddNotify(\"Build Mode enabled.\",NOTIFY_GENERIC, 5)")
-            PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
+	if (ply:GetNWInt("_kyle_buildmode") == 1) then  
+		ply:SetNWInt("_kyle_buildmode", 0) 
+		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode disabled.\",NOTIFY_GENERIC, 5)")
+		PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has disabled Build Mode.")
+	elseif (ply:GetNWInt("_kyle_buildmode") == 0) then
+		_kyle_buildweapons(ply)
+		ply:SetNWInt("_kyle_buildmode", 1)
+		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode enabled.\",NOTIFY_GENERIC, 5)")PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
         end
 end
 function _kyle_buildweapons(ply)
@@ -44,14 +43,15 @@ hook.Add("PlayerSpawn", "OnSpawn", function( ply )
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==0 then _kyle_builderOnSpawn=false end
     if GetConVar("_kyle_builderAbuseKick"):GetInt() ==1 then _kyle_builderAbuseKick=true end
     if GetConVar("_kyle_builderAbuseKick"):GetInt() ==0 then _kyle_builderAbuseKick=false end
-    ply:SetNWInt("_kyle_buildmode", 0) 
     if _kyle_builderOnSpawn then
-        ply:SendLua("GAMEMODE:AddNotify(\"You will be invincible until you say " .._kyle_builderCommand..".\",NOTIFY_GENERIC, 5)")
+    	_kyle_buildweapons(ply)
+        ply:SetNWInt("_kyle_buildmode", 1)
         ply:SetNWInt("_kyle_buildNotify", 1)
-        _kyle_buildweapons(ply)
-        ply:SetNWInt("_kyle_buildmode", 1) 
+        ply:SendLua("GAMEMODE:AddNotify(\"You will be invincible until you say " .._kyle_builderCommand..".\",NOTIFY_GENERIC, 5)")
         PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has spawned with Build Mode.")
-    end
+        else
+	    ply:SetNWInt("_kyle_buildmode", 0) 
+	end
 end )
 hook.Add("PlayerDeath", "OnDeath", function(victim, inflictor, killer)
     if killer:GetNWInt("_kyle_buildmode")==1 and killer != victim and _kyle_builderAbuseKick then
@@ -60,10 +60,10 @@ hook.Add("PlayerDeath", "OnDeath", function(victim, inflictor, killer)
     end
 end)
 hook.Add("PlayerSay", "OnSay", function(ply, say)
-    _kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString()
+	_kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString()
 	local text = say:lower()
 	if (text == _kyle_builderCommand) then
-        _kyle_buildmodeToggle(ply)
+        	_kyle_buildmodeToggle(ply)
 	end
 end)
 hook.Add("EntityTakeDamage", "GodMode",  function(ply, dmginfo)
