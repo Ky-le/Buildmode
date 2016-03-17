@@ -23,7 +23,7 @@ All of these variables need to be edited by the server and apply to all clients.
 * "_kyle_builderHighlightR" Change the RED hue of the Builder outline. (0-255) 
 * "_kyle_builderHighlightB" Change the BLUE hue of the Builder outline. (0-255) 
 * "_kyle_builderHighlightG" Change the GREEN hue of the Builder outline. (0-255) 
-* "_kyle_builderExHighlight 1" Toggle whether Non-Builders are outlined. (0-1) 
+* "_kyle_builderExHighlight" Toggle whether Non-Builders are outlined. (0-1) 
 * "_kyle_builderExHighlightR" Change the RED hue of the Non-Builder outline. (0-255) 
 * "_kyle_builderExHighlightB" Change the BLUE hue of the Non-Builder outline. (0-255) 
 * "_kyle_builderExHighlightG" Change the GREEN hue of the Non-Builder outline. (0-255) 
