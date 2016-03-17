@@ -1,4 +1,5 @@
 AddCSLuaFile()
+CreateConVar("_kyle_builderNoclip", "1", 8192, "Toggle whether Builders are can Noclip. (0-1)")
 CreateConVar("_kyle_builderHighlight", "0", 8192, "Toggle whether Builders are outlined. (0-1)")
 CreateConVar("_kyle_builderHighlightR", "0", 8192, "Change the RED hue of the Builder outline. (0-255)")
 CreateConVar("_kyle_builderHighlightG", "128", 8192, "Change the GREEN hue of the Builder outline. (0-255)")
@@ -123,5 +124,7 @@ hook.Add("PreDrawHalos", "AddHalos", function()
     end
 end )
 hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	//placeholder
+	if GetConVar("_kyle_builderNoclip"):GetInt() == 1 then
+		//placeholder
+	end
 end )
