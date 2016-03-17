@@ -131,16 +131,16 @@ hook.Add("PreDrawHalos", "AddHalos", function()
     end
     --Get the colors for the Builders and add a halo to them
     if _kyle_builderHighlight then
-        if (GetConVar("_kyle_builderHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightR"):GetInt() > -1) then _kyle_builderHighlightR = GetConVar("_kyle_builderHighlightR"):GetInt() end
-        if (GetConVar("_kyle_builderHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightG"):GetInt() > -1) then _kyle_builderHighlightG = GetConVar("_kyle_builderHighlightG"):GetInt() end
-        if (GetConVar("_kyle_builderHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightB"):GetInt() > -1) then _kyle_builderHighlightB = GetConVar("_kyle_builderHighlightB"):GetInt() end
+        _kyle_builderHighlightR = math.Clamp(GetConVar("_kyle_builderHighlightR"):GetInt(), 0, 255)
+        _kyle_builderHighlightG = math.Clamp(GetConVar("_kyle_builderHighlightG"):GetInt(), 0, 255)
+        _kyle_builderHighlightB = math.Clamp(GetConVar("_kyle_builderHighlightB"):GetInt(), 0, 255)
         halo.Add(_kyle_Builders, Color(_kyle_builderHighlightR, _kyle_builderHighlightG, _kyle_builderHighlightB), 4, 4, 1, true)
     end
     --Get the colors for the non-builders and add a halo to them
     if _kyle_builderExHighlight then
-        if (GetConVar("_kyle_builderExHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightR"):GetInt() > -1) then _kyle_builderExHighlightR = GetConVar("_kyle_builderExHighlightR"):GetInt() end
-        if (GetConVar("_kyle_builderExHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightG"):GetInt() > -1) then _kyle_builderExHighlightG = GetConVar("_kyle_builderExHighlightG"):GetInt() end
-        if (GetConVar("_kyle_builderExHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightB"):GetInt() > -1) then _kyle_builderExHighlightB = GetConVar("_kyle_builderExHighlightB"):GetInt() end
+        _kyle_builderExHighlightR = math.Clamp(GetConVar("_kyle_builderExHighlightR"):GetInt(), 0, 255)
+        _kyle_builderExHighlightG = math.Clamp(GetConVar("_kyle_builderExHighlightG"):GetInt(), 0, 255)
+        _kyle_builderExHighlightB = math.Clamp(GetConVar("_kyle_builderExHighlightB"):GetInt(), 0, 255)
         halo.Add(_kyle_BuildersEx, Color(_kyle_builderExHighlightR, _kyle_builderExHighlightG, _kyle_builderExHighlightB), 4, 4, 1, true)
     end
 end)
