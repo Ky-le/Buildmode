@@ -2,7 +2,7 @@
 A Garry's Mod addon made for builder protection. Uploaded here so people can laugh at my mistakes.
 
 ##TODO:
-- [in the works] Add some Noclip thing
+- [ ] Add some Noclip thing
 - [ ] Add ULX support or whatever
 - [ ] Add a new way to show Builders
 - [ ] Probably something else
