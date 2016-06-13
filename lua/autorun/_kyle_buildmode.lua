@@ -31,12 +31,12 @@ CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are k
 function _kyle_buildmodeToggle(ply)
 	if (ply:GetNWInt("_kyle_buildmode") == 1) then  
 		ply:SetNWInt("_kyle_buildmode", 0) 
-		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode disabled.\",NOTIFY_GENERIC, 5)")
+		ply:SendLua("GAMEMODE:AddNotify(\"Buildmode disabled.\",NOTIFY_GENERIC, 5)")
 		PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has disabled Build Mode.")
 	elseif (ply:GetNWInt("_kyle_buildmode") == 0) then
 		_kyle_buildweapons(ply)
 		ply:SetNWInt("_kyle_buildmode", 1)
-		ply:SendLua("GAMEMODE:AddNotify(\"Build Mode enabled.\",NOTIFY_GENERIC, 5)")PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
+		ply:SendLua("GAMEMODE:AddNotify(\"Buildmode enabled.\",NOTIFY_GENERIC, 5)")PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
 	end
 end
 --Reset the weapons of the Player to what is in _kyle_builderWeapons
@@ -53,7 +53,7 @@ hook.Add("PlayerSpawn", "OnSpawn", function( ply )
         ply:SetNWInt("_kyle_buildmode", 1)
         ply:SetNWInt("_kyle_buildNotify", 1)
         ply:SendLua("GAMEMODE:AddNotify(\"You will be invincible until you say " .._kyle_builderCommand..".\",NOTIFY_GENERIC, 5)")
-        PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has spawned with Build Mode.")
+        PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has spawned with Buildmode.")
         else
 	    ply:SetNWInt("_kyle_buildmode", 0) 
 	end
