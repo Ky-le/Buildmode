@@ -42,7 +42,8 @@ end
 --Reset the weapons of the Player to what is in _kyle_builderWeapons
 function _kyle_buildweapons(ply)
 	ply:StripWeapons()
-	for i=1,#_kyle_builderWeapons doply:Give(_kyle_builderWeapons[i])
+	for i=1,#_kyle_builderWeapons do 
+        ply:Give(_kyle_builderWeapons[i])
     end
 end
 
@@ -81,7 +82,7 @@ end)
 --Called when the player stands on a Weapon
 hook.Add("PlayerCanPickupWeapon", "OnWepPickup",  function(ply, wep)
     if ply:GetNWInt("_kyle_buildmode") == 1 then
-        local weapon = string.Explode("]", table.GetLastValue(string.Explode( "[", tostring(wep)))
+        local weapon = string.Explode("]", table.GetLastValue(string.Explode( "[", tostring(wep))))
         table.remove(weapon, 2)
         if !table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon)) then
             if ply:GetNWInt("_kyle_buildNotify") == 1 then
@@ -118,7 +119,7 @@ hook.Add("PreDrawHalos", "OnHalo", function()
         for i=1,#player.GetAll() do
             if player.GetAll()[i]:GetNWInt("_kyle_buildmode") == 1 and player.GetAll()[i]:Alive() and _kyle_builderHighlight then 
                 table.insert(_kyle_Builders, player.GetAll()[i])
-            elseifplayer.GetAll()[i]:GetNWInt("_kyle_buildmode") == 0 and player.GetAll()[i]:Alive() and _kyle_builderExHighlight then
+            elseif player.GetAll()[i]:GetNWInt("_kyle_buildmode") == 0 and player.GetAll()[i]:Alive() and _kyle_builderExHighlight then
                 table.insert(_kyle_BuildersEx, player.GetAll()[i])
             end
         end
