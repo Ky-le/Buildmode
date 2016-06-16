@@ -1,4 +1,4 @@
-local CATEGORY_NAME = "Nigger"
+local CATEGORY_NAME = "_Kyle_1"
 
 ------------------------------ Buildmode ------------------------------
 --Weapons the player can spawn while in Buildmode
