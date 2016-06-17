@@ -55,7 +55,6 @@ function ulx.buildmode( calling_ply, target_plys, should_revoke )
 	for i=1, #target_plys do
         local v = target_plys[ i ]
         if v.buildmode == nil && not should_revoke then
-            ulx.setExclusive( v, "in Buildmode" )
             ULib.getSpawnInfo( v )
             v:StripWeapons()
             _kyle_buildweapons(v)
@@ -63,7 +62,6 @@ function ulx.buildmode( calling_ply, target_plys, should_revoke )
             v.ULXHasGod = true
             v.buildmode = true
         elseif v.buildmode != nil && should_revoke then
-            ulx.clearExclusive( v )
             v:GodDisable()
             v.ULXHasGod = nil
             v.buildmode = nil
