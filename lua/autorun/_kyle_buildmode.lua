@@ -45,38 +45,33 @@ hook.Add("PlayerCanPickupWeapon", "_kyle_Buildmode_TrySWEPPickup", function(v, w
         return false   
     end
 end)
-hook.Add("DoPlayerDeath", "_kyle_Buildmode_OnDeath", function(ply, attacker, dmg )
-    if attacker.buildmode then
-        --attacker:Kick("You have killed someone while in Buildmode.")
-        ulx.fancyLogAdmin( attacker, "#A killed #T while in Buildmode using "..tostring(dmg:GetInflictor()), ply)
-    end
+hook.Add("PlayerShouldTakeDamage", "_kyle_Buildmode_TryTakeDamage", function(ply, v)
+	if v.buildmode then
+		return false
+	end
 end)
 function ulx.buildmode( calling_ply, target_plys, should_revoke )
     local affected_plys = {}
 	for i=1, #target_plys do
-		if not should_revoke and ulx.getExclusive( target_plys[ i ], calling_ply ) then
-			ULib.tsayError( calling_ply, ulx.getExclusive( target_plys[ i ], calling_ply ), true )
-		else
-            local v = target_plys[ i ]
-            if v.buildmode == nil && not should_revoke then
-            	ulx.setExclusive( v, "in Buildmode" )
-                ULib.getSpawnInfo( v )
-                v:StripWeapons()
-                _kyle_buildweapons(v)
-                v:GodEnable()
-                v.ULXHasGod = true
-                v.buildmode = true
-			elseif v.buildmode != nil && should_revoke then
-				ulx.clearExclusive( v )
-                v:GodDisable()
-                v.ULXHasGod = nil
-                v.buildmode = nil
-                local pos = v:GetPos()
-                ULib.spawn( v, true )
-                v:SetPos( pos )
-			end
-            table.insert( affected_plys, v )
+        local v = target_plys[ i ]
+        if v.buildmode == nil && not should_revoke then
+            ulx.setExclusive( v, "in Buildmode" )
+            ULib.getSpawnInfo( v )
+            v:StripWeapons()
+            _kyle_buildweapons(v)
+            v:GodEnable()
+            v.ULXHasGod = true
+            v.buildmode = true
+        elseif v.buildmode != nil && should_revoke then
+            ulx.clearExclusive( v )
+            v:GodDisable()
+            v.ULXHasGod = nil
+            v.buildmode = nil
+            local pos = v:GetPos()
+            ULib.spawn( v, true )
+            v:SetPos( pos )
         end
+        table.insert( affected_plys, v )
 	end
 
 	if not should_revoke then
