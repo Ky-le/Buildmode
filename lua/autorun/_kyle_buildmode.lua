@@ -80,7 +80,7 @@ function ulx.buildmode( calling_ply, target_plys, should_revoke )
 end
 local buildmode = ulx.command( CATEGORY_NAME, "ulx buildmode", ulx.buildmode, "!buildmode" )
 buildmode:addParam{ type=ULib.cmds.PlayersArg }
-buildmode:defaultAccess( ULib.ACCESS_ADMIN )
+buildmode:defaultAccess( ULib.ACCESS_ALL )
 buildmode:addParam{ type=ULib.cmds.BoolArg, invisible=true }
 buildmode:help( "Grants Buildmode mode to target(s)." )
 buildmode:setOpposite( "ulx unbuildmode", {_, _, true}, "!unbuildmode" )
