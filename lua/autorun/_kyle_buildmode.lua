@@ -72,10 +72,10 @@ function ulx.buildmode( calling_ply, target_plys, should_revoke )
         table.insert( affected_plys, v )
 	end
 
-	if not should_revoke then
-		ulx.fancyLogAdmin( calling_ply, "#A granted Buildmode mode upon #T", affected_plys )
-	else
+	if should_revoke then
 		ulx.fancyLogAdmin( calling_ply, "#A revoked Buildmode mode from #T", affected_plys )
+	else
+		ulx.fancyLogAdmin( calling_ply, "#A granted Buildmode mode upon #T", affected_plys )
 	end
 end
 local buildmode = ulx.command( CATEGORY_NAME, "ulx buildmode", ulx.buildmode, "!buildmode" )
