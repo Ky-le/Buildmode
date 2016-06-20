@@ -19,36 +19,40 @@ function _kyle_buildweapons(ply)
         ply:Give(_kyle_builderWeapons[i])
     end
 end
-hook.Add("PlayerGiveSWEP", "_kyle_Buildmode_TrySWEPGive", function(v, wep)
-     if v.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,wep) then
-        v:SendLua("GAMEMODE:AddNotify(\"You cannot give yourself weapons while in Buildmode.\",NOTIFY_GENERIC, 5)")
+hook.Add("PlayerGiveSWEP", "_kyle_Buildmode_TrySWEPGive", function(ply, wep)
+     if ply.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,wep) then
+        ply:SendLua("GAMEMODE:AddNotify(\"You cannot give yourself weapons while in Buildmode.\",NOTIFY_GENERIC, 5)")
         return false
     end
 end)
-hook.Add("PlayerSpawnSWEP", "_kyle_Buildmode_TrySWEPSpawn", function(v, wep)
-    if v.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,wep) then
-        v:SendLua("GAMEMODE:AddNotify(\"You cannot spawn weapons while in Buildmode.\",NOTIFY_GENERIC, 5)")
+hook.Add("PlayerSpawnSWEP", "_kyle_Buildmode_TrySWEPSpawn", function(ply, wep)
+    if ply.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,wep) then
+        ply:SendLua("GAMEMODE:AddNotify(\"You cannot spawn weapons while in Buildmode.\",NOTIFY_GENERIC, 5)")
         return false
     end
 end)
-hook.Add("PlayerCanPickupWeapon", "_kyle_Buildmode_TrySWEPPickup", function(v, wep)
+hook.Add("PlayerCanPickupWeapon", "_kyle_Buildmode_TrySWEPPickup", function(ply, wep)
     local weapon = string.Explode("]", table.GetLastValue(string.Explode( "[", tostring(wep))))
     table.remove(weapon, 2)
-    if v.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon)) then
-        if v:GetNWInt("_kyle_buildNotify") == 1 then
-            v:SetNWInt("_kyle_buildNotify", 0)
-            v:SendLua("GAMEMODE:AddNotify(\"You cannot pick up weapons while in Buildmode.\",NOTIFY_GENERIC, 5)") 
+    if ply.buildmode and !table.HasValue(_kyle_builderSpawnableWeapons,table.GetLastValue(weapon)) then
+        if ply:GetNWInt("_kyle_buildNotify") == 1 then
+            ply:SetNWInt("_kyle_buildNotify", 0)
+            ply:SendLua("GAMEMODE:AddNotify(\"You cannot pick up weapons while in Buildmode.\",NOTIFY_GENERIC, 5)") 
             timer.Simple( 5, function()
-                v:SetNWInt("_kyle_buildNotify", 1)
+                ply:SetNWInt("_kyle_buildNotify", 1)
             end)
         end
         return false   
     end
 end)
 hook.Add("PlayerShouldTakeDamage", "_kyle_Buildmode_TryTakeDamage", function(ply, v)
-	if v.buildmode then
+	if ply.buildmode then
 		return false
 	end
+end)
+hook.Add("PlayerDeath", "OnDeath", function(ply, inflictor, killer)
+    if ply.buildmode then
+    end
 end)
 function ulx.buildmode( calling_ply, target_plys, should_revoke )
     local affected_plys = {}
