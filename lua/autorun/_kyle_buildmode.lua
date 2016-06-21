@@ -50,10 +50,7 @@ hook.Add("PlayerShouldTakeDamage", "_kyle_Buildmode_TryTakeDamage", function(ply
 		return false
 	end
 end)
-hook.Add("PlayerDeath", "OnDeath", function(ply, inflictor, killer)
-    if ply.buildmode then
-    end
-end)
+
 function ulx.buildmode( calling_ply, target_plys, should_revoke )
     local affected_plys = {}
 	for i=1, #target_plys do
@@ -63,11 +60,9 @@ function ulx.buildmode( calling_ply, target_plys, should_revoke )
             v:StripWeapons()
             _kyle_buildweapons(v)
             v:GodEnable()
-            v.ULXHasGod = true
             v.buildmode = true
         elseif v.buildmode != nil && should_revoke then
             v:GodDisable()
-            v.ULXHasGod = nil
             v.buildmode = nil
             local pos = v:GetPos()
             ULib.spawn( v, true )
