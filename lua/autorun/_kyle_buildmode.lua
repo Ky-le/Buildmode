@@ -46,29 +46,28 @@ hook.Add("PlayerCanPickupWeapon", "_kyle_Buildmode_TrySWEPPickup", function(ply,
     end
 end)
 hook.Add("PlayerShouldTakeDamage", "_kyle_Buildmode_TryTakeDamage", function(ply, v)
-	if ply.buildmode then
+	if ply.buildmode or v.buildmode then
 		return false
 	end
 end)
-
 function ulx.buildmode( calling_ply, target_plys, should_revoke )
     local affected_plys = {}
 	for i=1, #target_plys do
-        local v = target_plys[ i ]
-        if v.buildmode == nil && not should_revoke then
-            ULib.getSpawnInfo( v )
-            v:StripWeapons()
-            _kyle_buildweapons(v)
-            v:GodEnable()
-            v.buildmode = true
-        elseif v.buildmode != nil && should_revoke then
-            v:GodDisable()
-            v.buildmode = nil
-            local pos = v:GetPos()
-            ULib.spawn( v, true )
-            v:SetPos( pos )
+        local ply = target_plys[ i ]
+        if ply.buildmode == nil && not should_revoke then
+            ULib.getSpawnInfo( ply )
+            ply:StripWeapons()
+            _kyle_buildweapons(ply)
+            ply.buildmode = true
+        elseif ply.buildmode != nil && should_revoke then
+            ply.buildmode = nil
+            if ply:Alive() then
+                local pos = ply:GetPos()
+                ULib.spawn( ply, true )
+                ply:SetPos( pos )
+            end
         end
-        table.insert( affected_plys, v )
+        table.insert( affected_plys, ply )
 	end
 
 	if should_revoke then
