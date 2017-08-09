@@ -38,7 +38,7 @@ function _kyle_buildweapons(ply)
         ply:Give(_kyle_builderWeapons[i])
     end
 end
-hook.Add("PlayerSpawn", "OnSpawn", function( ply )
+hook.Add( "PlayerSpawn", "OnSpawn", function( ply )
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==1 then _kyle_builderOnSpawn=true end
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==0 then _kyle_builderOnSpawn=false end
     if GetConVar("_kyle_builderAbuseKick"):GetInt() ==1 then _kyle_builderAbuseKick=true end
@@ -121,7 +121,4 @@ hook.Add("PreDrawHalos", "AddHalos", function()
         if (GetConVar("_kyle_builderExHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightB"):GetInt() > -1) then _kyle_builderExHighlightB = GetConVar("_kyle_builderExHighlightB"):GetInt() end
         halo.Add(_kyle_BuildersEx, Color(_kyle_builderExHighlightR, _kyle_builderExHighlightG, _kyle_builderExHighlightB), 4, 4, 1, true)
     end
-end )
-hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	//placeholder
 end )
