@@ -10,6 +10,7 @@ CreateConVar("_kyle_builderExHighlightB", "128", 8192, "Change the BLUE hue of t
 CreateConVar("_kyle_builderCommand", "!buildmode", 8192, "Change the command to toggle Buildmode for all clients.")
 CreateConVar("_kyle_builderOnSpawn", "0", 8192, "Toggle whether Buildmode is enabled by default. (0-1)")
 CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are kicked for abusing Buildmode. (0-1)")
+
  _kyle_builderSpawnableWeapons={
 "weapon_physgun",
 "gmod_tool",
@@ -20,6 +21,7 @@ CreateConVar("_kyle_builderAbuseKick", "0", 8192, "Toggle whether Builders are k
 "gmod_tool",
 "gmod_camera"
 }
+
 function _kyle_buildmodeToggle(ply)
         if (ply:GetNWInt("_kyle_buildmode") == 1) then  
             ply:SetNWInt("_kyle_buildmode", 0) 
@@ -32,12 +34,14 @@ function _kyle_buildmodeToggle(ply)
             PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has enabled Build Mode.")
         end
 end
+
 function _kyle_buildweapons(ply)
     ply:StripWeapons()
     for i=1,#_kyle_builderWeapons do 
         ply:Give(_kyle_builderWeapons[i])
     end
 end
+
 hook.Add("PlayerSpawn", "OnSpawn", function( ply )
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==1 then _kyle_builderOnSpawn=true end
     if GetConVar("_kyle_builderOnSpawn"):GetInt() ==0 then _kyle_builderOnSpawn=false end
@@ -110,18 +114,19 @@ hook.Add("PreDrawHalos", "AddHalos", function()
         end
     end
     if _kyle_builderHighlight then
-        if (GetConVar("_kyle_builderHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightR"):GetInt() > -1) then _kyle_builderHighlightR = GetConVar("_kyle_builderHighlightR"):GetInt() end
-        if (GetConVar("_kyle_builderHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightG"):GetInt() > -1) then _kyle_builderHighlightG = GetConVar("_kyle_builderHighlightG"):GetInt() end
-        if (GetConVar("_kyle_builderHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderHighlightB"):GetInt() > -1) then _kyle_builderHighlightB = GetConVar("_kyle_builderHighlightB"):GetInt() end
+	_kyle_builderHighlightR = math.Clamp(GetConVar("_kyle_builderHighlightR"):GetInt(), 0, 255)
+        _kyle_builderHighlightG = math.Clamp(GetConVar("_kyle_builderHighlightG"):GetInt(), 0, 255)
+        _kyle_builderHighlightB = math.Clamp(GetConVar("_kyle_builderHighlightB"):GetInt(), 0, 255)
         halo.Add(_kyle_Builders, Color(_kyle_builderHighlightR, _kyle_builderHighlightG, _kyle_builderHighlightB), 4, 4, 1, true)
     end
     if _kyle_builderExHighlight then
-        if (GetConVar("_kyle_builderExHighlightR"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightR"):GetInt() > -1) then _kyle_builderExHighlightR = GetConVar("_kyle_builderExHighlightR"):GetInt() end
-        if (GetConVar("_kyle_builderExHighlightG"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightG"):GetInt() > -1) then _kyle_builderExHighlightG = GetConVar("_kyle_builderExHighlightG"):GetInt() end
-        if (GetConVar("_kyle_builderExHighlightB"):GetInt() < 256) and (GetConVar("_kyle_builderExHighlightB"):GetInt() > -1) then _kyle_builderExHighlightB = GetConVar("_kyle_builderExHighlightB"):GetInt() end
+	_kyle_builderExHighlightR = math.Clamp(GetConVar("_kyle_builderExHighlightR"):GetInt(), 0, 255)
+ 	_kyle_builderExHighlightG = math.Clamp(GetConVar("_kyle_builderExHighlightG"):GetInt(), 0, 255)
+        _kyle_builderExHighlightB = math.Clamp(GetConVar("_kyle_builderExHighlightB"):GetInt(), 0, 255)
         halo.Add(_kyle_BuildersEx, Color(_kyle_builderExHighlightR, _kyle_builderExHighlightG, _kyle_builderExHighlightB), 4, 4, 1, true)
     end
 end )
+
 hook.Add("PlayerNoClip", "OnNoclip", function( ply )
-	//placeholder
+
 end )
