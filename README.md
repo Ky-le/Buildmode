@@ -1,3 +1,6 @@
+
+#REPLACED BY https://github.com/kythre/Buildmode-ULX
+
 # Buildmode
 A Garry's Mod addon made for builder protection. Uploaded here so people can laugh at my mistakes.
 
