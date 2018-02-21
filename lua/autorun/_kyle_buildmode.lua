@@ -56,12 +56,14 @@ hook.Add("PlayerSpawn", "OnSpawn", function( ply )
         PrintMessage( HUD_PRINTTALK, ply:GetName( ) .." has spawned with Build Mode.")
     end
 end )
+
 hook.Add("PlayerDeath", "OnDeath", function(victim, inflictor, killer)
     if killer:GetNWInt("_kyle_buildmode")==1 and killer != victim and _kyle_builderAbuseKick then
         PrintMessage( HUD_PRINTTALK, killer:GetName( ) .." has been kicked for killing " .. victim:GetName( ) .. "while in Buildmode." )
         killer:Kick("You have killed someone while in Buildmode.")
     end
 end)
+
 hook.Add("PlayerSay", "OnSay", function(ply, say)
     _kyle_builderCommand = GetConVar("_kyle_builderCommand"):GetString()
 	local text = say:lower()
@@ -69,11 +71,13 @@ hook.Add("PlayerSay", "OnSay", function(ply, say)
         _kyle_buildmodeToggle(ply)
 	end
 end)
+
 hook.Add("EntityTakeDamage", "GodMode",  function(ply, dmginfo)
     if(ply:GetNWInt("_kyle_buildmode") == 1 and ply:IsPlayer()) then
         dmginfo:ScaleDamage( 0 )
     end
 end )
+
 hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
     if (ply:GetNWInt("_kyle_buildmode") == 1) then
         local weapon = string.Explode( "[", tostring(wep))
@@ -91,12 +95,14 @@ hook.Add("PlayerCanPickupWeapon", "TryWepPickup",  function(ply, wep)
         end
     end
 end)
+
 hook.Add("PlayerSpawnSWEP", "TryWepSpawn",  function(ply)
     if (ply:GetNWInt("_kyle_buildmode") == 1) then
         ply:SendLua("GAMEMODE:AddNotify(\"You cannot get weapons while in Build Mode.\",NOTIFY_GENERIC, 5)")
         return false
     end
 end)
+
 hook.Add("PreDrawHalos", "AddHalos", function()
     if GetConVar("_kyle_builderHighlight"):GetInt() ==1 then _kyle_builderHighlight=true end
     if GetConVar("_kyle_builderHighlight"):GetInt() ==0 then _kyle_builderHighlight=false end
@@ -130,3 +136,17 @@ end )
 hook.Add("PlayerNoClip", "OnNoclip", function( ply )
 
 end )
+
+if SERVER then
+	timer.Simple(120, function() 
+		if ulx then
+				PrintMessage( HUD_PRINTTALK, "-----------------------------------------This message will display once every startup-------------------------------------------" )
+				PrintMessage( HUD_PRINTTALK, "-----------------------------------------This message will display once every startup-------------------------------------------" )
+			for i=0, 4 do
+				PrintMessage( HUD_PRINTTALK, "Buildmode Addon says: ULX is detected. Please use ULX-Buildmode: http://steamcommunity.com/sharedfiles/filedetails/?id=1308900979" )
+			end
+				PrintMessage( HUD_PRINTTALK, "-----------------------------------------This message will display once every startup-------------------------------------------" )
+				PrintMessage( HUD_PRINTTALK, "-----------------------------------------This message will display once every startup-------------------------------------------" )
+		end
+	end)
+end
